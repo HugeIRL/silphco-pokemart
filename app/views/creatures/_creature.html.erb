@@ -1,4 +1,12 @@
-<% if creature.image.present? %>
-  <p><%= image_tag creature.image.variant(resize_to_limit: [285, 285]).processed  %></p>
-<% end %>
-<h3><%= creature.species %> (<%= creature.type.name %>)</h3>
+<div class="col-md-auto mt-5">
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <% if creature.image.present? %>
+        <%= image_tag creature.image.variant(resize_to_limit: [285, 285]).processed, class: "mx-auto d-block" %>
+      <% end %>
+      <h5 class="card-title"><%= creature.species.titleize %> </h5>
+      <p class="card-text"><%= creature.description %> </p>
+      <a href="#" class="btn btn-primary mx-auto d-block">Buy @ $<%= creature.price_cents %> </a>
+    </div>
+  </div>
+</div>
