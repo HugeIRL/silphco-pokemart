@@ -6,7 +6,16 @@
       <% end %>
       <h5 class="card-title"><%= creature.species.titleize %> </h5>
       <p class="card-text"><%= creature.description %> </p>
-      <a href="#" class="btn btn-primary mx-auto d-block">Buy @ $<%= creature.price_cents %> </a>
+      <% if cart.include?(creature) %>
+        <%= button_to cart_path(creature), class: "btn btn-danger w-100", method: :delete do %>
+          Remove from cart
+        <% end %>
+      <% else %>
+        <%= form_with url: cart_index_path, method: :post do %>
+          <%= hidden_field_tag(:id, creature.id) %>
+          <%= button_tag "Buy @ 0.#{creature.price_cents} ETH", class: "btn btn-primary w-100" %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
