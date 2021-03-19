@@ -4,7 +4,7 @@
       <% if creature.image.present? %>
         <%= image_tag creature.image.variant(resize_to_limit: [285, 285]).processed, class: "mx-auto d-block" %>
       <% end %>
-      <h5 class="card-title"><%= creature.species.titleize %> </h5>
+      <h5 class="card-title"><%= link_to creature.species.titleize, creature %> </h5>
       <p class="card-text"><%= creature.description %> </p>
       <% if cart.include?(creature) %>
         <%= button_to cart_path(creature), class: "btn btn-danger w-100", method: :delete do %>
