@@ -1,7 +1,7 @@
 require "rest-client"
 
-Type.delete_all
-Creature.delete_all
+Type.destroy_all
+Creature.destroy_all
 
 pokemon = []
 description = []
@@ -25,13 +25,13 @@ pokemon.each do |creature|
     p = type.creatures.create(
       pokedex_id:  creature["id"],
       species:     creature["name"],
-      description: description[creature["id"] - 1]["flavor_text_entries"][description[creature["id"] - 1]["flavor_text_entries"].length - 1]["flavor_text"],
+      description: description[creature["id"] - 1]["flavor_text_entries"][1]["flavor_text"],
       price_cents: rand(5000..100_000).to_i
     )
     puts "Creating #{p.species} with type #{p.type.name}"
 
-    downloaded_image = URI.open("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{p.id}.png")
-    p.image.attach(io: downloaded_image, filename: "m-#{p.id}.png")
+    downloaded_image = URI.open("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{p.pokedex_id}.png")
+    p.image.attach(io: downloaded_image, filename: "m-#{p.pokedex_id}.png")
     puts "Downloaded image for #{p.species}" if downloaded_image
   else
     puts "Invalid type #{p['type']} for pokemon #{p['species']}"
