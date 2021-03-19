@@ -1,0 +1,4 @@
+<% if creature.image.present? %>
+  <p><%= image_tag creature.image.variant(resize_to_limit: [285, 285]).processed  %></p>
+<% end %>
+<h3><%= creature.species %> (<%= creature.type.name %>)</h3>
