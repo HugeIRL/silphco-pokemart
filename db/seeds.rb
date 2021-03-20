@@ -40,3 +40,4 @@ end
 
 puts "Created #{Type.count} types."
 puts "Created #{Creature.count} pokemon."
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
