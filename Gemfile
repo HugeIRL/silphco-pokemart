@@ -61,3 +61,10 @@ gem 'image_processing', '~> 1.2'
 
 gem 'activeadmin'
 gem 'devise'
+
+gem 'bootstrap', '~> 5.0.0.beta2'
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+
+gem 'jquery-rails'
+
+gem 'arctic_admin'
