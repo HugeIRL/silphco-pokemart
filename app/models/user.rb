@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   validates :first_name, :last_name, :email, :encrypted_password, :address, :postal_code,
             presence: true
+
+  has_one :city
 end
