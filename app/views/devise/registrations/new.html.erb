@@ -20,6 +20,11 @@
   </div>
 
   <div class="mb-3">
+    Province<br />
+    <%= f.select :province, options_for_select(CS.states(:ca)), {:prompt => "Province" }, autofocus: true, autocomplete: "province", class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
     <%= f.label :postal_code %><br />
     <%= f.text_field :postal_code, autofocus: true, autocomplete: "postal_code", class: "form-control" %>
   </div>
