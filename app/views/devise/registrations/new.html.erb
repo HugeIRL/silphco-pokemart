@@ -21,7 +21,7 @@
 
   <div class="mb-3">
     Province<br />
-    <%= f.select :province, options_for_select(CS.states(:ca)), {:prompt => "Province" }, autofocus: true, autocomplete: "province", class: "form-select" %>
+    <%= f.collection_select :province_id, Province.all, :id, :name, {:prompt => "--" }, autofocus: true, autocomplete: "province_id", class: "form-select" %>
   </div>
 
   <div class="mb-3">
