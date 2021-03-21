@@ -7,19 +7,19 @@ Type.destroy_all
 pokemon = []
 description = []
 province = CS.states(:ca)
-tax_rates = [[0, 0.05, 0], # ab
-             [0.07, 0.05, 0], # bc
-             [0.07, 0.05, 0], # mb
-             [0, 0, 0.15], # nb
-             [0, 0, 0.15], # nfl&l
-             [0, 0.05, 0], # ns
-             [0, 0, 0.15], # nwt
-             [0, 0.05, 0], # nvt
-             [0, 0, 0.13], # ont
-             [0, 0, 0.15], # pei
-             [0.09975, 0.05, 0], # qc
-             [0.06, 0.05, 0], # sask
-             [0, 0.05, 0]] # yuk
+tax_rates = [[0, 5, 0], # ab
+             [7, 5, 0], # bc
+             [7, 5, 0], # mb
+             [0, 0, 15], # nb
+             [0, 0, 15], # nfl&l
+             [0, 5, 0], # ns
+             [0, 0, 15], # nwt
+             [0, 5, 0], # nvt
+             [0, 0, 13], # ont
+             [0, 0, 15], # pei
+             [9.975, 5, 0], # qc
+             [6, 5, 0], # sask
+             [0, 5, 0]] # yuk
 
 # limit the amount of Pokemon to 25 for now. End goal is to get the original 151.
 (1..25).each do |i|
