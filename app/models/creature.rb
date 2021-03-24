@@ -5,4 +5,6 @@ class Creature < ApplicationRecord
   validates :pokedex_id, :price_cents, numericality: { only_integer: true }
 
   has_one_attached :image
+
+  has_and_belongs_to_many :orders
 end

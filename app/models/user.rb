@@ -7,4 +7,7 @@ class User < ApplicationRecord
             presence: true
 
   has_one :city
+
+  has_many :orders, dependent: :destroy
+  has_many :creatures, through: :orders
 end
