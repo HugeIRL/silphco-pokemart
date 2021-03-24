@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2021_03_24_150958) do
 
   create_table "creature_orders", force: :cascade do |t|
     t.integer "quantity"
+    t.integer "purchase_price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
