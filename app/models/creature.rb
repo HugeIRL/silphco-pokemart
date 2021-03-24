@@ -6,5 +6,5 @@ class Creature < ApplicationRecord
 
   has_one_attached :image
 
-  has_and_belongs_to_many :orders
+  has_and_belongs_to_many :orders, join_table: "creature_orders"
 end

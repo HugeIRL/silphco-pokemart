@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_21_155148) do
+ActiveRecord::Schema.define(version: 2021_03_24_150958) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -74,6 +74,12 @@ ActiveRecord::Schema.define(version: 2021_03_21_155148) do
     t.index ["province_id"], name: "index_cities_on_province_id"
   end
 
+  create_table "creature_orders", force: :cascade do |t|
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "creatures", force: :cascade do |t|
     t.integer "pokedex_id"
     t.string "species"
@@ -83,6 +89,11 @@ ActiveRecord::Schema.define(version: 2021_03_21_155148) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "type_id", null: false
     t.index ["type_id"], name: "index_creatures_on_type_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "provinces", force: :cascade do |t|
