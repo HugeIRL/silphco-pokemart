@@ -30,7 +30,7 @@
               </button>
             </div>
           </div>
-          <ul class="navbar-nav mb-2 mb-lg-0 d-flex align-items-center">
+          <ul class="navbar-nav mb-2 mb-lg-0 d-flex">
           <% if user_signed_in? %>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle d-flex align-items-center px-3" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,6 +69,9 @@
                       <%= link_to creature.species.titleize, creature %> <%= button_to '❌', cart_path(creature), class: "btn", method: :delete %>
                     </li>
                   <% end %>
+                  <li class="dropdown-item px-1">
+                    <%= button_tag "Checkout", class: "btn btn-success w-100" %>
+                  </li>
                 </ul>
               <% end %>
             </li>

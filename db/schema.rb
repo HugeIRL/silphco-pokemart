@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 2021_03_24_150958) do
     t.float "pst_rate"
     t.float "gst_rate"
     t.float "hst_rate"
+    t.float "total_cost"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
