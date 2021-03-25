@@ -70,3 +70,5 @@ gem 'jquery-rails'
 gem 'arctic_admin'
 
 gem 'city-state'
+
+gem 'stripe'
