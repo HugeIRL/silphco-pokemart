@@ -93,6 +93,9 @@ ActiveRecord::Schema.define(version: 2021_03_24_150958) do
   end
 
   create_table "orders", force: :cascade do |t|
+    t.float "pst_rate"
+    t.float "gst_rate"
+    t.float "hst_rate"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
