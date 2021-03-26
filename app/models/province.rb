@@ -3,4 +3,5 @@ class Province < ApplicationRecord
   validates :pst_rate, :gst_rate, :hst_rate, numericality: { only_float: true }
 
   has_many :cities
+  has_many :users
 end

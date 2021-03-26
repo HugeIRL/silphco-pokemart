@@ -71,7 +71,16 @@
                     </li>
                   <% end %>
                   <li class="dropdown-item px-1">
-                    <%= button_tag "Checkout", class: "btn btn-success w-100" %>
+                    <% if user_signed_in? %>
+                      <%= form_with url: checkout_create_path, local: false do %>
+                        <% cart.each do |creature| %>
+                          <%= hidden_field_tag(:creature_id, creature.id) %>
+                        <% end %>
+                        <%= button_tag "Checkout", class: "btn btn-success w-100" %>
+                      <% end %>
+                    <% else %>
+                      <%= button_to "Checkout", new_user_registration_path, class: "btn btn-success w-100", method: :get %>
+                    <% end %>
                   </li>
                 </ul>
               <% end %>
