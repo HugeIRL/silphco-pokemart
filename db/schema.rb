@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_150958) do
+ActiveRecord::Schema.define(version: 2021_03_25_204041) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -79,6 +79,10 @@ ActiveRecord::Schema.define(version: 2021_03_24_150958) do
     t.integer "purchase_price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "order_id", null: false
+    t.integer "creature_id", null: false
+    t.index ["creature_id"], name: "index_creature_orders_on_creature_id"
+    t.index ["order_id"], name: "index_creature_orders_on_order_id"
   end
 
   create_table "creatures", force: :cascade do |t|
@@ -139,6 +143,8 @@ ActiveRecord::Schema.define(version: 2021_03_24_150958) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cities", "provinces"
+  add_foreign_key "creature_orders", "creatures"
+  add_foreign_key "creature_orders", "orders"
   add_foreign_key "creatures", "types"
   add_foreign_key "users", "cities"
   add_foreign_key "users", "provinces"
