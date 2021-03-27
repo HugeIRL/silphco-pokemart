@@ -4,16 +4,24 @@
       <% if creature.image.present? %>
         <%= image_tag creature.image.variant(resize_to_limit: [285, 285]).processed, class: "mx-auto d-block" %>
       <% end %>
-      <h5 class="card-title"><%= link_to creature.species.titleize, creature %> </h5>
-      <p class="card-text"><%= creature.description %> </p>
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-title"><%= link_to creature.species.titleize, creature, class: "text-decoration-none" %></h5>
+        <h5 class="card-title"><small class="small fs-6">CAD</small> <%= number_to_currency(creature.price_cents / 100) %></h5>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mb-2 text-secondary">
+        <p class="card-text small m-0">#<%= creature.pokedex_id %></p>
+        <p class="card-text small m-0">OT: Random</p>
+      </div>
+      <hr class="text-secondary">
+      <p class="card-text small text-secondary"><%= creature.description %></p>
       <% if cart.include?(creature) %>
         <%= button_to cart_path(creature), class: "btn btn-danger w-100", method: :delete do %>
           Remove from cart
         <% end %>
       <% else %>
         <%= form_with url: cart_index_path, method: :post do %>
-          <%= hidden_field_tag(:id, creature.id) %>
-          <%= button_tag "Buy @ 0.#{creature.price_cents} ETH", class: "btn btn-primary w-100" %>
+          <%= hidden_field_tag(:id, creature.id, id: "creature_#{creature.id}") %>
+          <%= button_tag "Add to cart", class: "btn btn-outline-primary w-100" %>
         <% end %>
       <% end %>
     </div>

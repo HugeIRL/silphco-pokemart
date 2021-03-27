@@ -13,7 +13,7 @@ class CartController < ApplicationController
     id = params[:id].to_i
     session[:shopping_cart].delete(id)
     creature = Creature.find(id)
-    flash[:notice] = "Removed #{creature.species.titleize} from the cart."
+    flash[:alert] = "Removed #{creature.species.titleize} from the cart."
     redirect_to root_path
   end
 end
