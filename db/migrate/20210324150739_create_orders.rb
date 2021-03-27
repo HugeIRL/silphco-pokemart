@@ -5,6 +5,7 @@ class CreateOrders < ActiveRecord::Migration[6.1]
       t.float :gst_rate
       t.float :hst_rate
       t.float :total_cost
+      t.string :payment_status
       t.timestamps
     end
   end
