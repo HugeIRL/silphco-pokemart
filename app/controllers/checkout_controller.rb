@@ -5,14 +5,14 @@ class CheckoutController < ApplicationController
     total_cost = 0
 
     if current_user
-      session[:shopping_cart].each do |id|
+      session[:shopping_cart].each do |id, qty|
         creature = Creature.find(id)
         cart_hash = {
           name:        creature.species.titleize,
           description: creature.description,
           amount:      creature.price_cents,
           currency:    "cad",
-          quantity:    1
+          quantity:    qty.to_i
         }
         cart_items.push(cart_hash)
         total_cost += creature.price_cents

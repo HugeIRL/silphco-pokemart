@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   resources :creatures, only: %i[index show]
-  resources :cart, only: %i[create destroy]
+  resources :cart, only: %i[create update destroy]
 
   scope "/checkout" do
     post "create", to: "checkout#create", as: "checkout_create"
