@@ -62,7 +62,7 @@ class CheckoutController < ApplicationController
 
     @session = Stripe::Checkout::Session.create(
       payment_method_types: ["card"],
-      success_url:          checkout_success_url + "?session_id={CHECKOUT_SESSION_ID}",
+      success_url:          "#{checkout_success_url}?session_id={CHECKOUT_SESSION_ID}",
       cancel_url:           checkout_cancel_url,
       line_items:           cart_items
     )
@@ -85,6 +85,7 @@ class CheckoutController < ApplicationController
       hst_rate:       order_user.province.hst_rate.to_f,
       total_cost:     @session.amount_total.to_f,
       payment_status: @session.payment_status,
+      payment_intent: @session.payment_intent,
       user_id:        order_user.id
     )
 

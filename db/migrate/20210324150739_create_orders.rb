@@ -6,6 +6,7 @@ class CreateOrders < ActiveRecord::Migration[6.1]
       t.float :hst_rate
       t.float :total_cost
       t.string :payment_status
+      t.string :payment_intent
       t.timestamps
     end
   end
