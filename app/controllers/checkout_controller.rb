@@ -79,10 +79,17 @@ class CheckoutController < ApplicationController
     return unless current_user && @session.payment_status == "paid"
 
     order_user = User.includes(:province).find(current_user.id)
+
+    total_pst = @session.amount_total.to_i * (order_user.province.pst_rate / 100)
+    total_gst = @session.amount_total.to_i * (order_user.province.gst_rate / 100)
+    total_hst = @session.amount_total.to_i * (order_user.province.hst_rate / 100)
+    total_taxes = total_pst + total_gst + total_hst
+
     @order_details = Order.create(
       pst_rate:       order_user.province.pst_rate.to_f,
       gst_rate:       order_user.province.gst_rate.to_f,
       hst_rate:       order_user.province.hst_rate.to_f,
+      total_taxes:    total_taxes.to_i,
       total_cost:     @session.amount_total.to_i,
       payment_status: @session.payment_status,
       payment_intent: @session.payment_intent,
@@ -98,7 +105,7 @@ class CheckoutController < ApplicationController
           puts "The #{column} property #{error}"
         end
       end
-      redirect_to cancel
+      redirect_to checkout_cancel_url
     end
 
     session[:shopping_cart].each do |id, qty|
