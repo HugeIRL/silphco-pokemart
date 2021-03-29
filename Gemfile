@@ -68,3 +68,5 @@ gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem 'jquery-rails'
 
 gem 'arctic_admin'
+
+gem 'city-state'
