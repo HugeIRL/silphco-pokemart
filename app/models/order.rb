@@ -4,5 +4,6 @@ class Order < ApplicationRecord
 
   validates :pst_rate, :gst_rate, :hst_rate, :total_cost, :payment_status, :payment_intent,
             :user_id, presence: true
-  validates :pst_rate, :gst_rate, :hst_rate, :total_cost, numericality: { only_float: true }
+  validates :pst_rate, :gst_rate, :hst_rate, numericality: { only_float: true }
+  validates :total_cost, numericality: { only_integer: true }
 end
