@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_21_155148) do
+ActiveRecord::Schema.define(version: 2021_03_27_131452) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -74,6 +74,17 @@ ActiveRecord::Schema.define(version: 2021_03_21_155148) do
     t.index ["province_id"], name: "index_cities_on_province_id"
   end
 
+  create_table "creature_orders", force: :cascade do |t|
+    t.integer "quantity"
+    t.integer "purchase_price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "order_id", null: false
+    t.integer "creature_id", null: false
+    t.index ["creature_id"], name: "index_creature_orders_on_creature_id"
+    t.index ["order_id"], name: "index_creature_orders_on_order_id"
+  end
+
   create_table "creatures", force: :cascade do |t|
     t.integer "pokedex_id"
     t.string "species"
@@ -83,6 +94,19 @@ ActiveRecord::Schema.define(version: 2021_03_21_155148) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "type_id", null: false
     t.index ["type_id"], name: "index_creatures_on_type_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.float "pst_rate"
+    t.float "gst_rate"
+    t.float "hst_rate"
+    t.integer "total_cost"
+    t.string "payment_status"
+    t.string "payment_intent"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "provinces", force: :cascade do |t|
@@ -123,7 +147,10 @@ ActiveRecord::Schema.define(version: 2021_03_21_155148) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cities", "provinces"
+  add_foreign_key "creature_orders", "creatures"
+  add_foreign_key "creature_orders", "orders"
   add_foreign_key "creatures", "types"
+  add_foreign_key "orders", "users"
   add_foreign_key "users", "cities"
   add_foreign_key "users", "provinces"
 end

@@ -30,15 +30,20 @@
               </button>
             </div>
           </div>
-          <ul class="navbar-nav mb-2 mb-lg-0 d-flex align-items-center">
+          <ul class="navbar-nav mb-2 mb-lg-0 d-flex">
           <% if user_signed_in? %>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle d-flex align-items-center px-3" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <strong class="text-primary">Hello, <%= current_user.first_name %></strong>
+              <a class="nav-link dropdown-toggle d-flex align-items-center px-3 text-muted" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hello,&nbsp;
+                <span class="text-dark"><%= current_user.first_name %></span>
               </a>
-              <ul class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="navbarUserDropdown">
-                <li class="dropdown-item d-flex align-items-center justify-content-between">
-                  <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn p-1 nav-link text-danger" %>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown">
+                <li>
+                  <%= link_to "Order history", orders_path, class: "dropdown-item" %>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item text-danger" %>
                 </li>
               </ul>
             </li>
@@ -50,13 +55,10 @@
               <%= link_to "Register", new_user_registration_path, class: "nav-link px-3" %>
             </li>
           <% end %>
-            <li class="nav-item">
-              <a class="nav-link px-3" aria-current="page" href="/creatures">Shop</a>
-            </li>
             <li class="nav-item dropdown">
-              <a class="nav-link <% if cart.present? %> dropdown-toggle <% end %> d-flex align-items-center px-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link <% if cart.present? %> dropdown-toggle <% end %> d-flex align-items-center px-3" href="#" id="navbarDropdown" role="button" <% if cart.present? %> data-bs-toggle="dropdown" <% end %> aria-expanded="false">
                 Cart
-                <% if cart.present? %>
+                <% if cart.present? && session[:shopping_cart].present? %>
                   <span class="badge bg-danger ms-2 me-1"><%= cart.size %></span>
                 <% else %>
                   <span class="badge bg-secondary ms-2 me-1">0</span>
@@ -64,11 +66,52 @@
               </a>
               <% if cart.present? %>
                 <ul class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="navbarDropdown">
-                  <% cart.each do |creature| %>
-                    <li class="dropdown-item d-flex align-items-center justify-content-between">
-                      <%= link_to creature.species.titleize, creature %> <%= button_to '❌', cart_path(creature), class: "btn", method: :delete %>
+                  <% session[:shopping_cart].each do |id, qty| %>
+                    <% creature = Creature.find(id) %>
+                    <li class="dropdown-item">
+                      <div class="d-flex pt-3 align-items-center">
+                        <div class="flex-shrink-0">
+                          <%= image_tag creature.image.variant(resize_to_limit: [96, 96]).processed, class: "border rounded" %>
+                        </div>
+                        <div class="flex-grow-1 ms-3 d-flex justify-content-between align-items-center">
+                          <%= link_to creature.species.titleize, creature, class: "me-5" %>
+                          <%= number_to_currency((creature.price_cents.to_f / 100) * qty.to_i) %>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center mt-2">
+                          <%= form_with url: cart_path(creature), method: :put do |f| %>
+                            <%= hidden_field_tag(:id, creature.id, id: "creature_#{creature.id}") %>
+                            <%= f.select :quantity, options_for_select([1,2,3,4,5,6], selected: qty), {}, { class: "form-select", onchange: 'this.form.submit()' } %>
+                          <% end %>
+                        <%= button_to 'Remove', cart_path(creature), class: "btn btn-outline-danger btn-sm small text-end", method: :delete %>
+                      </div>
                     </li>
+                    <li><hr class="dropdown-divider text-light"></li>
                   <% end %>
+                    <% if user_signed_in? %>
+                      <li class="dropdown-item">
+                        <%= form_with url: checkout_create_path, local: false do %>
+                          <% total_price = 0 %>
+                          <% session[:shopping_cart].each do |creature, quantity| %>
+                            <% creature = Creature.find(creature) %>
+                            <%= hidden_field_tag(:creature_id, creature.id, id: "creature_#{creature.id}") %>
+                            <% total_price += ((creature.price_cents.to_f / 100) * quantity) %>
+                        <% end %>
+                        <div class="d-flex justify-content-between align-items-center my-2">
+                          <p class="m-0">Subtotal: </p>
+                          <p class="fw-bold m-0"><%= number_to_currency(total_price) %></p>
+                        </div>
+                      </li>
+                      <li class="dropdown-item px-1">
+                        <%= button_tag "Checkout", class: "btn btn-success w-100" %>
+                      </li>
+                      <% end %>
+                    <% else %>
+                      <li class="dropdown-item px-1">
+                        <%= button_to "Checkout", new_user_registration_path, class: "btn btn-success w-100", method: :get %>
+                      </li>
+                    <% end %>
+                  </li>
                 </ul>
               <% end %>
             </li>
@@ -78,17 +121,29 @@
     </nav>
     <div class="container">
       <div class="row">
-        <% if notice %>
-          <p class="alert alert-success"><%= notice %></p>
-        <% end %>
-        <% if alert %>
-          <p class="alert alert-danger"><%= alert %></p>
-        <% end %>
+        <div class="col">
+          <% if notice %>
+            <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+              <%= notice %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% end %>
+          <% if alert %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= alert %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% end %>
+        </div>
       </div>
-      <div class="row d-flex justify-content-around">
         <%= yield %>
-      </div>
+
+      <footer class="mt-5">
+        <hr class="text-secondary">
+        <p class="text-center text-muted small">Silph Co. <span>🚀</span> - Copywrong <%= Time.current.year %></p>
+      </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/v3"></script>
   </body>
 </html>

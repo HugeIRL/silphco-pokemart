@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
   end
 
   def cart
-    Creature.find(session[:shopping_cart])
+    creature_ids = session[:shopping_cart].collect { |i| i[0] }
+    Creature.find(creature_ids)
   end
 
   protect_from_forgery with: :exception

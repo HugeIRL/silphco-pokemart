@@ -6,5 +6,9 @@ class User < ApplicationRecord
   validates :first_name, :last_name, :email, :encrypted_password, :address, :postal_code,
             presence: true
 
-  has_one :city
+  belongs_to :province
+  belongs_to :city
+
+  has_many :orders, dependent: :destroy
+  has_many :creatures, through: :orders
 end
