@@ -83,7 +83,7 @@ class CheckoutController < ApplicationController
       pst_rate:       order_user.province.pst_rate.to_f,
       gst_rate:       order_user.province.gst_rate.to_f,
       hst_rate:       order_user.province.hst_rate.to_f,
-      total_cost:     @session.amount_total.to_f,
+      total_cost:     @session.amount_total.to_i,
       payment_status: @session.payment_status,
       payment_intent: @session.payment_intent,
       user_id:        order_user.id
@@ -98,15 +98,16 @@ class CheckoutController < ApplicationController
           puts "The #{column} property #{error}"
         end
       end
+      redirect_to cancel
     end
 
-    session[:shopping_cart].each do |id|
+    session[:shopping_cart].each do |id, qty|
       creature = Creature.find(id)
 
       co = CreatureOrder.create(
         creature_id:    creature.id,
         order_id:       @order_details.id,
-        quantity:       1,
+        quantity:       qty,
         purchase_price: creature.price_cents
       )
 

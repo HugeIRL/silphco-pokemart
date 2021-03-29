@@ -6,7 +6,7 @@
       <% end %>
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="card-title"><%= link_to creature.species.titleize, creature, class: "text-decoration-none" %></h5>
-        <h5 class="card-title"><small class="small fs-6">CAD</small> <%= number_to_currency(creature.price_cents / 100) %></h5>
+        <h5 class="card-title"><small class="small fs-6">CAD</small> <%= number_to_currency(creature.price_cents.to_f / 100) %></h5>
       </div>
       <div class="d-flex justify-content-between align-items-center mb-2 text-secondary">
         <p class="card-text small m-0">#<%= creature.pokedex_id %></p>

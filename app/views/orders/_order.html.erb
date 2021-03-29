@@ -1,0 +1,36 @@
+<% if current_user %>
+  <% if !@orders.nil? %>
+    <div class="col-md-4 mt-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title"><%= "Order #{order.id}" %></h5>
+            <h5 class="card-title"><small class="small fs-6">CAD</small> <%= number_to_currency(order.total_cost / 100) %></h5>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-2 text-secondary">
+            <p class="card-text small m-0"><%= order.created_at.strftime("%B %d %Y, %I:%M%p") %></p>
+            <p class="card-text small m-0 btn btn-sm btn-outline-success"><%= order.payment_status.titleize %></p>
+          </div>
+          <% for co in CreatureOrder.where(order_id: order.id) do %>
+            <hr class="text-secondary">
+            <div class="d-flex justify-content-between py-3">
+              <div class="flex-shrink-0">
+                <%= image_tag co.creature.image.variant(resize_to_limit: [96, 96]).processed, class: "border rounded me-3" %>
+              </div>
+              <div class="flex-grow-1 flex-wrap">
+                <h5 class="m-0"><%= link_to co.creature.species.titleize, co.creature, class: "text-decoration-none" %></h5>
+                <p class="card-text small text-secondary m-0"><%= co.creature.description %></p>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <p class="card-text m-0 small text-secondary me-3">Qty: <%= co.quantity %></p>
+                  <p class="card-text m-0"><%= number_to_currency((co.purchase_price.to_f * co.quantity) / 100) %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <p class="card-text m-0">You haven't ordered anything yet.</p>
+  <% end %>
+<% end %>

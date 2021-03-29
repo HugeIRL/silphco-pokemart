@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   resources :creatures, only: %i[index show]
   resources :cart, only: %i[create update destroy]
+  resources :orders, only: %i[index]
 
   scope "/checkout" do
     post "create", to: "checkout#create", as: "checkout_create"
