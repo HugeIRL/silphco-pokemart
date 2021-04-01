@@ -74,3 +74,10 @@ gem 'city-state'
 gem 'stripe'
 
 gem 'kaminari'
+
+gem 'poke-api-v2'
+
+gem 'bullet', group: 'development'
+
+gem 'rubocop'
+gem 'rubocop-rails'

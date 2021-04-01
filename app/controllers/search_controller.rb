@@ -1,6 +1,5 @@
 class SearchController < ApplicationController
   def search
-    puts "HERE1234 #{params[:type]}"
     if params[:type].blank? && params[:species].blank?
       redirect_to(root_path) and return
     else
@@ -21,7 +20,6 @@ class SearchController < ApplicationController
                                                    species: "%#{@species}%",
                                                    type:    "%#{@type}%")
                            .page(params[:page]).per(6)
-        puts "HERE55 #{@results}"
       end
       redirect_to(root_path) and return if @results.blank?
     end

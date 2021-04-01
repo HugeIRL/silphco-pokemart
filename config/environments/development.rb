@@ -1,6 +1,16 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.after_initialize do
+    Bullet.enable        = true
+    Bullet.alert         = true
+    Bullet.bullet_logger = true
+    Bullet.console       = true
+    # Bullet.growl         = true
+    Bullet.rails_logger  = true
+    Bullet.add_footer    = true
+  end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
@@ -56,7 +66,7 @@ Rails.application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
-  config.assets.debug = true
+  config.assets.debug = false
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
@@ -75,4 +85,21 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.sentry = true
+    Bullet.alert = true
+    Bullet.bullet_logger = true
+    Bullet.console = true
+    Bullet.growl = false
+    Bullet.rails_logger = true
+    Bullet.honeybadger = true
+    Bullet.bugsnag = true
+    Bullet.appsignal = true
+    Bullet.airbrake = true
+    Bullet.rollbar = true
+    Bullet.add_footer = true
+    Bullet.skip_html_injection = false
+  end
 end

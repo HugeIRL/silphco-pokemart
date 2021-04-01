@@ -14,7 +14,7 @@
             <hr class="text-secondary">
             <div class="d-flex justify-content-between py-3">
               <div class="flex-shrink-0">
-                <%= image_tag co.creature.image.variant(resize_to_limit: [96, 96]).processed, class: "border rounded me-3" %>
+                <%= image_tag co.creature.image, class: "border rounded me-3" %>
               </div>
               <div class="flex-grow-1 flex-wrap">
                 <h5 class="m-0"><%= link_to co.creature.species.titleize, co.creature, class: "text-decoration-none" %></h5>

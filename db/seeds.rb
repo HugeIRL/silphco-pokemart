@@ -1,10 +1,7 @@
-require "rest-client"
-
 Province.destroy_all
 Creature.destroy_all
 Type.destroy_all
 
-pokemon = []
 description = []
 province = CS.states(:ca)
 
@@ -22,35 +19,34 @@ tax_rates = [[0, 5, 0], # ab
              [6, 5, 0], # sask
              [0, 5, 0]] # yuk
 
-# limit the amount of Pokemon to 25 for now. End goal is to get the original 151.
-(1..25).each do |i|
-  data = RestClient.get("https://pokeapi.co/api/v2/pokemon/#{i}")
-  json_data = JSON.parse(data)
-  pokemon.push(json_data)
-  puts "GET data for Pokemon id #{i}"
+(1..151).each do |i|
+  creature = PokeApi.get(pokemon: i)
+  sleep(1)
+  puts "GET data for #{creature.name} pokedex_id #{creature.id}"
+  type = Type.find_or_create_by(name: creature.types.first.type.name)
+  puts "FOUND #{type.name} type for #{creature.name}"
 
-  desc = RestClient.get("https://pokeapi.co/api/v2/pokemon-species/#{i}")
-  json_desc = JSON.parse(desc)
-  description.push(json_desc)
-end
-
-pokemon.each do |creature|
-  type = Type.find_or_create_by(name: creature["types"][0]["type"]["name"])
+  description = PokeApi.get(pokemon_species: i).flavor_text_entries.find do |text|
+    text.flavor_text if text.language.name == "en"
+  end
+  puts "FOUND description for #{creature.name}" if description.present?
 
   if type && type.valid?
     p = type.creatures.create(
-      pokedex_id:  creature["id"],
-      species:     creature["name"],
-      description: description[creature["id"] - 1]["flavor_text_entries"][1]["flavor_text"],
+      pokedex_id:  creature.id,
+      species:     creature.name,
+      description: description.flavor_text,
       price_cents: rand(5000..100_000).to_i
     )
-    puts "Creating #{p.species} with type #{p.type.name}"
+    puts "CREATE #{p.species} with type #{p.type.name}" if p.valid?
 
     downloaded_image = URI.open("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{p.pokedex_id}.png")
-    p.image.attach(io: downloaded_image, filename: "m-#{p.pokedex_id}.png")
-    puts "Downloaded image for #{p.species}" if downloaded_image
+    sleep(1)
+    p.image.attach(io: downloaded_image, filename: "m-#{p.pokedex_id}.png",
+content_type: "image/png")
+    puts "ATTACH image to #{p.species}" if downloaded_image
   else
-    puts "Invalid type #{p['type']} for pokemon #{p['species']}"
+    puts "INVALID type #{p['type']} for pokemon #{p['species']}"
   end
 end
 

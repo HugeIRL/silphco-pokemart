@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
       <% if creature.image.present? %>
-        <%= image_tag creature.image.variant(resize_to_limit: [285, 285]).processed, class: "mx-auto d-block" %>
+        <%= image_tag creature.image, class: "mx-auto d-block" %>
       <% end %>
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="card-title"><%= link_to creature.species.titleize, creature, class: "text-decoration-none" %></h5>
@@ -22,7 +22,7 @@
         <%= form_with url: cart_index_path, method: :post do |f| %>
         <div class="row">
           <div class="col-md-auto">
-            <%= f.select :quantity, options_for_select([1,2,3,4,5,6], selected: 1), {}, class: "form-select" %>
+            <%= f.select :quantity, options_for_select(1..10, selected: 1), {}, class: "form-select" %>
           </div>
           <div class="col">
             <%= hidden_field_tag(:id, creature.id, id: "creature_#{creature.id}") %>
