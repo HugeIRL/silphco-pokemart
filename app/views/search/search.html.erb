@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12 d-flex justify-content-between align-items-center">
-    <h2 class="mt-5">Order History</h2>
+    <h2 class="mt-5"><%= @results.count %> Result(s)</h2>
     <%= paginate @results %>
   </div>
   <% @results.each do |creature| %>
