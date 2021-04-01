@@ -73,7 +73,7 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                           <div class="d-flex justify-content-between align-items-center">
-                            <%= link_to creature.species.titleize, creature, class: "me-5" %>
+                            <%= link_to creature.species.titleize, creature, class: "me-5 text-decoration-none" %>
                             <%= number_to_currency((creature.price_cents.to_f / 100) * qty.to_i) %>
                           </div>
                           <div class="d-flex">
