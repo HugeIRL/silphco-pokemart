@@ -7,4 +7,6 @@ class Creature < ApplicationRecord
   has_one_attached :image, dependent: :destroy
 
   has_and_belongs_to_many :orders, join_table: "creature_orders"
+
+  paginates_per 12
 end

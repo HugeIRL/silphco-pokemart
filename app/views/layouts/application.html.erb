@@ -98,7 +98,7 @@
                           <% session[:shopping_cart].each do |creature, quantity| %>
                             <% creature = Creature.find(creature) %>
                             <%= hidden_field_tag(:creature_id, creature.id, id: "creature_#{creature.id}") %>
-                            <% total_price += ((creature.price_cents.to_f / 100) * quantity) %>
+                            <% total_price += ((creature.price_cents.to_f / 100) * quantity.to_i) %>
                         <% end %>
                         <div class="d-flex justify-content-between align-items-center my-2">
                           <p class="m-0">Subtotal: </p>

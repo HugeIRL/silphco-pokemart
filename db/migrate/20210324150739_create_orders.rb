@@ -4,7 +4,6 @@ class CreateOrders < ActiveRecord::Migration[6.1]
       t.float :pst_rate
       t.float :gst_rate
       t.float :hst_rate
-      t.integer :total_taxes
       t.integer :total_cost
       t.string :payment_status
       t.string :payment_intent

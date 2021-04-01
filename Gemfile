@@ -67,8 +67,6 @@ gem 'sprockets-rails', :require => 'sprockets/railtie'
 
 gem 'jquery-rails'
 
-gem 'arctic_admin'
-
 gem 'city-state'
 
 gem 'stripe'
@@ -76,8 +74,6 @@ gem 'stripe'
 gem 'kaminari'
 
 gem 'poke-api-v2'
-
-gem 'bullet', group: 'development'
 
 gem 'rubocop'
 gem 'rubocop-rails'

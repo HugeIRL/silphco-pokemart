@@ -1,5 +1,5 @@
 class Type < ApplicationRecord
-  has_many :creatures
+  has_many :creatures, dependent: :destroy
 
   validates :name, presence: true
 
