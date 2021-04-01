@@ -16,7 +16,7 @@
       <p class="card-text small text-secondary"><%= creature.description %></p>
       <% if cart.include?(creature) %>
         <%= button_to cart_path(creature), class: "btn btn-danger w-100", method: :delete do %>
-          Remove from cart
+          Remove from bag
         <% end %>
       <% else %>
         <%= form_with url: cart_index_path, method: :post do |f| %>
@@ -26,7 +26,7 @@
           </div>
           <div class="col">
             <%= hidden_field_tag(:id, creature.id, id: "creature_#{creature.id}") %>
-            <%= button_tag "Add to cart", class: "btn btn-outline-primary w-100" %>
+            <%= button_tag "Add to bag", class: "btn btn-outline-primary w-100" %>
           </div>
         </div>
         <% end %>
