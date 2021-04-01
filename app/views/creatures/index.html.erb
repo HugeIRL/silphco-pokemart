@@ -4,16 +4,16 @@
   <button class="btn btn-outline-secondary" type="button">Find a partner</button>
 </div>
 
-<div class="row d-flex justify-content-between align-items-center flex-wrap">
-  <div class="col mt-5">
+<div class="row justify-content-between align-items-center">
+  <div class="col-md-auto mt-5">
     <h2 class="m-0">Creatures</h2>
   </div>
   <div class="col-md-auto align-items-center mt-5">
     <% Type.all.each do |type| %>
-      <%= link_to image_tag(type.badge(type.name)), creatures_path(type_id: type.id), class: "p-3" %>
+      <%= link_to image_tag(type.badge(type.name)), creatures_path(type_id: type.id), class: "p-2" %>
     <% end %>
   </div>
-  <div class="col d-flex justify-content-end align-items-center mt-5">
+  <div class="col-md-auto mt-5">
     <%= paginate @creatures %>
   </div>
 </div>
