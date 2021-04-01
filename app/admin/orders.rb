@@ -1,18 +1,4 @@
 ActiveAdmin.register Order do
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :pst_rate, :gst_rate, :hst_rate, :total_cost
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:pst_rate, :gst_rate, :hst_rate, :total_cost]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-  
+  permit_params :pst_rate, :gst_rate, :hst_rate, :total_taxes, :total_cost, :payment_status,
+                :payment_intent, :user_id
 end
