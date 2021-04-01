@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     get "cancel", to: "checkout#cancel", as: "checkout_cancel"
   end
 
+  get "/search" => "search#search", :as => "search_page"
+
   root to: "creatures#index"
 end

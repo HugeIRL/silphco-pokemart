@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-12 d-flex justify-content-between align-items-center">
+    <h2 class="mt-5">Order History</h2>
+    <%= paginate @results %>
+  </div>
+  <% @results.each do |creature| %>
+    <div class="col-md-4 mt-5">
+      <div class="card">
+        <div class="card-body">
+          <% if creature.image.present? %>
+            <%= image_tag creature.image.variant(resize_to_limit: [285, 285]).processed, class: "mx-auto d-block" %>
+          <% end %>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title"><%= link_to creature.species.titleize, creature, class: "text-decoration-none" %></h5>
+            <h5 class="card-title"><small class="small fs-6">CAD</small> <%= number_to_currency(creature.price_cents.to_f / 100) %></h5>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-2 text-secondary">
+            <p class="card-text small m-0">#<%= creature.pokedex_id %></p>
+            <p class="card-text small m-0">OT: Random</p>
+          </div>
+          <hr class="text-secondary">
+          <p class="card-text small text-secondary"><%= creature.description %></p>
+          <% if cart.include?(creature) %>
+            <%= button_to cart_path(creature), class: "btn btn-danger w-100", method: :delete do %>
+              Remove from cart
+            <% end %>
+          <% else %>
+            <%= form_with url: cart_index_path, method: :post do |f| %>
+            <div class="row">
+              <div class="col-md-auto">
+                <%= f.select :quantity, options_for_select([1,2,3,4,5,6], selected: 1), {}, class: "form-select" %>
+              </div>
+              <div class="col">
+                <%= hidden_field_tag(:id, creature.id, id: "creature_#{creature.id}") %>
+                <%= button_tag "Add to cart", class: "btn btn-outline-primary w-100" %>
+              </div>
+            </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
