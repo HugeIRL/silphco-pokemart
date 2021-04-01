@@ -1,6 +1,6 @@
 class CreaturesController < ApplicationController
   def index
-    @creatures = Creature.includes(:type).all
+    @creatures = Creature.includes(:type).page(params[:page]).per(12)
   end
 
   def show

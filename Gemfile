@@ -72,3 +72,5 @@ gem 'arctic_admin'
 gem 'city-state'
 
 gem 'stripe'
+
+gem 'kaminari'
