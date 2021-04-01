@@ -3,13 +3,12 @@
     <div class="col-md-4 mt-5">
       <div class="card">
         <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-title"><%= "Order #{order.id}" %></h5>
-            <h5 class="card-title"><small class="small fs-6">CAD</small> <%= number_to_currency(order.total_cost / 100) %></h5>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="card-title m-0"><%= "Order #{order.id}" %></h5>
+            <p class="card-text small m-0 btn btn-sm btn-outline-success"><%= order.payment_status.titleize %></p>
           </div>
           <div class="d-flex justify-content-between align-items-center mb-2 text-secondary">
             <p class="card-text small m-0"><%= order.created_at.strftime("%B %d %Y, %I:%M%p") %></p>
-            <p class="card-text small m-0 btn btn-sm btn-outline-success"><%= order.payment_status.titleize %></p>
           </div>
           <% for co in CreatureOrder.where(order_id: order.id) do %>
             <hr class="text-secondary">
@@ -27,6 +26,24 @@
               </div>
             </div>
           <% end %>
+          <hr class="text-secondary">
+          <div class="d-flex justify-content-between align-items-center pt-2">
+            <p class="card-text text-secondary small m-0">PST (<%= order.pst_rate %>%)</p>
+            <p class="card-text text-secondary small m-0"><small class="small">CAD</small> <%= number_to_currency((order.total_cost.to_f / 100) * (order.pst_rate / 100)) %></p>
+          </div>
+          <div class="d-flex justify-content-between align-items-center pt-2">
+            <p class="card-text text-secondary small m-0">GST (<%= order.gst_rate %>%)</p>
+            <p class="card-text text-secondary small m-0"><small class="small">CAD</small> <%= number_to_currency((order.total_cost.to_f / 100) * (order.gst_rate / 100)) %></p>
+          </div>
+          <div class="d-flex justify-content-between align-items-center pt-2">
+            <p class="card-text text-secondary small m-0">HST (<%= order.hst_rate %>%)</p>
+            <p class="card-text text-secondary small m-0"><small class="small">CAD</small> <%= number_to_currency((order.total_cost.to_f / 100) * (order.hst_rate / 100)) %></p>
+          </div>
+          <hr class="text-secondary">
+          <div class="d-flex justify-content-between align-items-center pt-2">
+            <p class="card-text text-secondary small m-0">Total Charge</p>
+            <h5 class="card-title m-0"><small class="small fs-6">CAD</small> <%= number_to_currency(order.total_cost.to_f / 100) %></h5>
+          </div>
         </div>
       </div>
     </div>
