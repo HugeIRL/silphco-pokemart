@@ -16,7 +16,7 @@
           </div>
           <div class="d-flex justify-content-between align-items-center mb-2 text-secondary">
             <p class="card-text small m-0">#<%= creature.pokedex_id %></p>
-            <p class="card-text small m-0">OT: Random</p>
+            <p class="card-text small m-0"><%= image_tag(creature.type.badge(creature.type.name)) %></p>
           </div>
           <hr class="text-secondary">
           <p class="card-text small text-secondary"><%= creature.description %></p>
