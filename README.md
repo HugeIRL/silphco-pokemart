@@ -3,10 +3,14 @@
 ## Requirements & Setup
 
 Ruby (v3.0.0)
+
 Rails: (v3.1.2)
+
 Yarn
+
 Node
 
+<hr>
 First, you'll want to run:
 
 ```
