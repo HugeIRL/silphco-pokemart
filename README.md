@@ -2,7 +2,7 @@
 
 This app was created as my final project for the Full Stack Development course. It contains a e-commerce website with CRUD operations based around buying and selling Pokemon, complete with an Admin interface.
 
-## Requirements & Setup
+## Requirements
 
 Ruby (v3.0.0)
 
@@ -11,6 +11,8 @@ Rails: (v3.1.2)
 Yarn
 
 Node
+
+## Setup
 
 First, you'll want to run:
 
