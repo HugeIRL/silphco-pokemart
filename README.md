@@ -1,5 +1,7 @@
 # Silph Co. PokeMart
 
+This app was created as my final project for the Full Stack Development course. It contains a e-commerce website with CRUD operations based around buying and selling Pokemon, complete with an Admin interface.
+
 ## Requirements & Setup
 
 Ruby (v3.0.0)
@@ -17,7 +19,7 @@ yarn install
 bundle install
 ```
 
-This will grab all the dependancies.
+This will grab all the dependencies.
 
 ## Usage
 
