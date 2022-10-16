@@ -10,7 +10,6 @@ Yarn
 
 Node
 
-<hr>
 First, you'll want to run:
 
 ```
