@@ -58,41 +58,52 @@ class CheckoutController < ApplicationController
   end
 
   def create_bag(creature, qty)
-    creature_details = {
-      name:        creature.species.titleize,
-      description: creature.description,
-      amount:      creature.price_cents,
-      currency:    "cad",
-      quantity:    qty.to_i
+    creature = {
+      price_data: {
+        currency: "cad",
+        unit_amount: creature.price_cents,
+        product_data: {
+          name:        creature.species.titleize,
+          description: creature.description,
+        },
+      },
+      quantity: qty.to_i
     }
-    @bag.push(creature_details)
+    @bag.push(creature)
   end
 
   def add_taxes_to_checkout(user)
-    pst_total = create_tax("PST or QST (Quebec)", "Provincial Sales", user.province.pst_rate,
+    province = user.province.name
+    pst_total = create_tax(province, "PST or QST (Quebec) @ #{user.province.pst_rate}%", "Provincial Sales", user.province.pst_rate,
                            calculate_total_cost)
-    gst_total = create_tax("GST", "Goods and Services", user.province.gst_rate,
+    gst_total = create_tax(province, "GST", "Goods and Services @ #{user.province.gst_rate}%", user.province.gst_rate,
                            calculate_total_cost)
-    hst_total = create_tax("HST", "Harmonized Sales", user.province.hst_rate, calculate_total_cost)
+    hst_total = create_tax(province, "HST", "Harmonized Sales @ #{user.province.hst_rate}%", user.province.hst_rate, calculate_total_cost)
 
     @bag.push(pst_total, gst_total, hst_total)
     start_stripe_session
   end
 
-  def create_tax(tax_name, desc, rate, total)
+  def create_tax(province, tax_name, desc, rate, total)
+    amount = (total * (rate / 100)).to_i
     {
-      name:        tax_name,
-      description: "#{desc} Tax",
-      amount:      (total * (rate / 100)).to_i,
-      currency:    "cad",
-      quantity:    1
+      price_data: {
+        currency:    "cad",
+        unit_amount: amount,
+        product_data: {
+          name:        tax_name,
+          description: "#{desc} Tax",
+        },
+      },
+      quantity: 1,
     }
   end
 
   def calculate_total_cost
     total_cost = 0
     @bag.each do |k|
-      total_cost += k[:amount].to_i
+      creature_amount = k.dig(:price_data, :unit_amount).to_i
+      total_cost += creature_amount
     end
     total_cost
   end
@@ -102,7 +113,8 @@ class CheckoutController < ApplicationController
       payment_method_types: ["card"],
       success_url:          "#{checkout_success_url}?session_id={CHECKOUT_SESSION_ID}",
       cancel_url:           checkout_cancel_url,
-      line_items:           @bag
+      line_items:           @bag,
+      mode:                 "payment"
     )
   end
 
