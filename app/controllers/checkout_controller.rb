@@ -74,11 +74,11 @@ class CheckoutController < ApplicationController
 
   def add_taxes_to_checkout(user)
     province = user.province.name
-    pst_total = create_tax(province, "PST or QST (Quebec) @ #{user.province.pst_rate}%", "Provincial Sales", user.province.pst_rate,
+    pst_total = create_tax(province, "PST or QST (Quebec) @ #{user.province.pst_rate}%", "Provincial Sales Tax", user.province.pst_rate,
                            calculate_total_cost)
-    gst_total = create_tax(province, "GST", "Goods and Services @ #{user.province.gst_rate}%", user.province.gst_rate,
+    gst_total = create_tax(province, "GST @ #{user.province.gst_rate}%", "Goods and Services Tax", user.province.gst_rate,
                            calculate_total_cost)
-    hst_total = create_tax(province, "HST", "Harmonized Sales @ #{user.province.hst_rate}%", user.province.hst_rate, calculate_total_cost)
+    hst_total = create_tax(province, "HST @ #{user.province.hst_rate}%", "Harmonized Sales Tax", user.province.hst_rate, calculate_total_cost)
 
     @bag.push(pst_total, gst_total, hst_total)
     start_stripe_session
