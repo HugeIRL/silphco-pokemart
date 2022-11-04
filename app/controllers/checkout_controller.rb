@@ -44,7 +44,9 @@ class CheckoutController < ApplicationController
     create_order(order_user)
   end
 
-  def cancel; end
+  def cancel
+    puts @bag
+  end
 
   def nil?(creature)
     redirect_to root_path if creature.nil?
@@ -64,8 +66,8 @@ class CheckoutController < ApplicationController
         unit_amount: creature.price_cents,
         product_data: {
           name:        creature.species.titleize,
-          description: creature.description,
-        },
+          description: creature.description
+        }
       },
       quantity: qty.to_i
     }
@@ -73,26 +75,21 @@ class CheckoutController < ApplicationController
   end
 
   def add_taxes_to_checkout(user)
-    province = user.province.name
-    pst_total = create_tax(province, "PST or QST (Quebec) @ #{user.province.pst_rate}%", "Provincial Sales", user.province.pst_rate,
-                           calculate_total_cost)
-    gst_total = create_tax(province, "GST @ #{user.province.gst_rate}%", "Goods and Services", user.province.gst_rate,
-                           calculate_total_cost)
-    hst_total = create_tax(province, "HST @ #{user.province.hst_rate}%", "Harmonized Sales", user.province.hst_rate, calculate_total_cost)
-
+    pst_total = create_tax("PST or QST (Québec) @ #{user.province.pst_rate}%", "Provincial (or Québec) Sales Tax", user.province.pst_rate, calculate_total_cost)
+    gst_total = create_tax("GST @ #{user.province.gst_rate}%", "Goods and Services Tax", user.province.gst_rate, calculate_total_cost)
+    hst_total = create_tax("HST @ #{user.province.hst_rate}%", "Harmonized Sales Tax", user.province.hst_rate, calculate_total_cost)
     @bag.push(pst_total, gst_total, hst_total)
     start_stripe_session
   end
 
-  def create_tax(province, tax_name, desc, rate, total)
-    amount = (total * (rate / 100)).to_i
+  def create_tax(tax_name, desc, rate, total)
     {
       price_data: {
-        currency:    "cad",
-        unit_amount: amount,
+        currency: "cad",
+        unit_amount: (total * (rate / 100)).to_i,
         product_data: {
-          name:        tax_name,
-          description: "#{desc} Tax",
+          name: tax_name,
+          description: "#{desc}",
         },
       },
       quantity: 1,
@@ -102,8 +99,7 @@ class CheckoutController < ApplicationController
   def calculate_total_cost
     total_cost = 0
     @bag.each do |k|
-      creature_amount = k.dig(:price_data, :unit_amount).to_i
-      total_cost += creature_amount
+      total_cost += (k.dig(:price_data, :unit_amount).to_i * k[:quantity].to_i)
     end
     total_cost
   end
