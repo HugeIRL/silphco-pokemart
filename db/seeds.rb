@@ -95,3 +95,5 @@ if Rails.env.development?
   AdminUser.create!(email: "admin@silph.co", password: "teamrocket",
   password_confirmation: "teamrocket")
 end
+
+logger.info "Created #{AdminUser.count} Admin User"

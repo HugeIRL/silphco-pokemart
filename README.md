@@ -23,6 +23,8 @@ bundle install
 
 This will grab all the dependencies.
 
+Then, you'll want to add your Stripe API keys to **/config/secrets.yml** to allow the Stripe API to handle payments.
+
 ## Usage
 
 You'll need to migrate the db for the project to work by running the following:
