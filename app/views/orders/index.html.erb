@@ -3,5 +3,5 @@
     <div class="col-md-12">
       <%= paginate @orders %>
     </div>
-  <%= render @orders %>
+  <%= render @orders.sort_by(&:id).reverse %>
 </div>
